@@ -48,68 +48,75 @@ class _FinddonorsState extends State<Finddonors> {
                           Icon(Icons.bloodtype,size: 150,color: Colors.redAccent,),
                          /// Icon(Icons.bloodtype,size: 100,color: Colors.red,),
                           SizedBox(height: 100,),
-                          DropdownButtonFormField(
+
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButtonFormField(
 
 
-                            hint: Text("select your blood type"),
-                            icon: Icon(Icons.bloodtype,),
-                            decoration: InputDecoration(
+                              hint: Text("select your blood type"),
+                              icon: Icon(Icons.bloodtype,),
+                              decoration: InputDecoration(
 
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: Colors.red, width: 2),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(color: Colors.red, width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(color: Colors.red, width: 2),
+                                ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: Colors.red, width: 2),
-                              ),
+
+                              value: blood,
+
+                              items: bloodTyps.map((i) {
+                                return DropdownMenuItem(
+                                  child: Text(i),
+                                  value: i,
+                                );
+                              }).toList(),
+                              onChanged: (v) {
+                                setState(() {
+                                  blood = v as String;
+                                });
+                              },
                             ),
-                  
-                            value: blood,
-                  
-                            items: bloodTyps.map((i) {
-                              return DropdownMenuItem(
-                                child: Text(i),
-                                value: i,
-                              );
-                            }).toList(),
-                            onChanged: (v) {
-                              setState(() {
-                                blood = v as String;
-                              });
-                            },
                           ),
                   
                           SizedBox(height: 50,),
                   
-                          DropdownButtonFormField(
-                  
-                            hint: Text("select your location"),
-                            icon: Icon(Icons.location_on,),
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: Colors.red, width: 2),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: DropdownButtonFormField(
+
+                              hint: Text("select your location"),
+                              icon: Icon(Icons.location_on,),
+                              decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(color: Colors.red, width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                  borderSide: BorderSide(color: Colors.red, width: 2),
+                                ),
                               ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(color: Colors.red, width: 2),
-                              ),
+
+                              value: locat,
+
+                              items: location .map((i) {
+                                return DropdownMenuItem(
+                                  child: Text(i),
+                                  value: location.indexOf(i),
+                                );
+                              }).toList(),
+                              onChanged: (v) {
+                                setState(() {
+                                  locat = v;
+                                });
+                              },
                             ),
-                  
-                            value: locat,
-                  
-                            items: location .map((i) {
-                              return DropdownMenuItem(
-                                child: Text(i),
-                                value: location.indexOf(i),
-                              );
-                            }).toList(),
-                            onChanged: (v) {
-                              setState(() {
-                                locat = v;
-                              });
-                            },
                           ),
                           SizedBox(height: 50,),
                   

@@ -13,23 +13,32 @@ class Txtformfild extends StatefulWidget {
 }
 
 class _TxtformfildState extends State<Txtformfild> {
-
+bool b = true;
   @override
   Widget build(BuildContext context) {
     return Padding(
 
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+
+        obscureText:(widget.suffIcon!=null) ? b ?true : false: false ,
+
         onSaved: widget.data,
         validator: widget.v,
         decoration: InputDecoration(
             hintText: widget.hint,
             label: Text(widget.lbl),
             prefixIcon: widget.preIcon,
-            suffixIcon: widget.suffIcon,
+            suffixIcon: widget.suffIcon !=null? InkWell(
+              child: b?Icon(Icons.closed_caption_disabled_outlined):Icon(Icons.remove_red_eye_outlined),
+              onTap: (){
+                setState(() {
+                  b=!b;
+                });
+              },) : null,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-                width: 3,
+                  width: 3,
                   color: Colors.red
 
               ),

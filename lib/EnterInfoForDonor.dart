@@ -60,65 +60,72 @@ class _EnterinfofordonorState extends State<Enterinfofordonor> {
                   )
                   ),
                   SizedBox(height: 30,),
-                  DropdownButtonFormField(
-                    hint: Text("select your blood type"),
-                    icon: Icon(Icons.bloodtype,),
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButtonFormField(
+                      hint: Text("select your blood type"),
+                      icon: Icon(Icons.bloodtype,),
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                      ),
+
+                      value: widget.bloodType,
+
+                      items: bloodTyps.map((i) {
+                        return DropdownMenuItem(
+                          child: Text(i),
+                          value: i,
+                        );
+                      }).toList(),
+                      onChanged: (v) {
+                        setState(() {
+                          widget.bloodType = v as String;
+                        });
+                      },
                     ),
-              
-                    value: widget.bloodType,
-              
-                    items: bloodTyps.map((i) {
-                      return DropdownMenuItem(
-                        child: Text(i),
-                        value: i,
-                      );
-                    }).toList(),
-                    onChanged: (v) {
-                      setState(() {
-                        widget.bloodType = v as String;
-                      });
-                    },
                   ),
               
                   SizedBox(height: 30,),
               
-                  DropdownButtonFormField(
-              
-                    hint: Text("select your location"),
-                    icon: Icon(Icons.location_on,),
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButtonFormField(
+
+                      hint: Text("select your location"),
+                      icon: Icon(Icons.location_on,),
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.red, width: 2),
+                        ),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.red, width: 2),
-                      ),
+
+                      value: widget.location,
+
+                      items: location .map((i) {
+                        return DropdownMenuItem(
+                          child: Text(i),
+                          value: location.indexOf(i),
+                        );
+                      }).toList(),
+                      onChanged: (v) {
+                        setState(() {
+                         widget.location = v ;
+                        });
+                      },
                     ),
-              
-                    value: widget.location,
-              
-                    items: location .map((i) {
-                      return DropdownMenuItem(
-                        child: Text(i),
-                        value: location.indexOf(i),
-                      );
-                    }).toList(),
-                    onChanged: (v) {
-                      setState(() {
-                       widget.location = v ;
-                      });
-                    },
                   ),
                   SizedBox(height: 30,),
                   Center(

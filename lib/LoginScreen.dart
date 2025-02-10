@@ -51,7 +51,7 @@ class _LoginscreenState extends State<Loginscreen> {
                     return null;
                   },),
                   SizedBox(height: 30,),
-                  Txtformfild(lbl: "Password", hint: "********", preIcon: Icon(Icons.password),v: (v){
+                  Txtformfild(lbl: "Password", hint: "********",suffIcon: Icon(Icons.remove_red_eye_outlined), preIcon: Icon(Icons.password),v: (v){
                     if(v!.isEmpty || v.length<8){
                       return "invalid password";
                     }

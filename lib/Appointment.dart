@@ -38,33 +38,38 @@ class _AppointmentState extends State<Appointment> {
     SizedBox(height: 130,),
       Txtformfild(lbl: "ID", hint: "10 digit serial number", preIcon: Icon(Icons.person)),
       SizedBox(height: 30,),
-      DropdownButtonFormField(
-        hint: Text("select a Hospital"),
-        icon: Icon(Icons.local_hospital,),
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(color: Colors.red, width: 2),
+
+
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: DropdownButtonFormField(
+          hint: Text("select a Hospital"),
+          icon: Icon(Icons.local_hospital,),
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Colors.red, width: 2),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Colors.red, width: 2),
+            ),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
-            borderSide: BorderSide(color: Colors.red, width: 2),
-          ),
+
+          value:hosp,
+
+          items: hospitals.map((i) {
+            return DropdownMenuItem(
+              child: Text(i),
+              value: i,
+            );
+          }).toList(),
+          onChanged: (v) {
+            setState(() {
+              hosp = v as String;
+            });
+          },
         ),
-
-        value:hosp,
-
-        items: hospitals.map((i) {
-          return DropdownMenuItem(
-            child: Text(i),
-            value: i,
-          );
-        }).toList(),
-        onChanged: (v) {
-          setState(() {
-            hosp = v as String;
-          });
-        },
       ),
       SizedBox(height: 30,),
       Center(
