@@ -28,7 +28,10 @@ bool b = true;
         decoration: InputDecoration(
             hintText: widget.hint,
             label: Text(widget.lbl),
-            prefixIcon: widget.preIcon,
+            prefixIcon: Icon(
+          widget.preIcon.icon,
+          color: Color(0xFFFF5252),
+        ),
             suffixIcon: widget.suffIcon !=null? InkWell(
               child: b?Icon(Icons.closed_caption_disabled_outlined):Icon(Icons.remove_red_eye_outlined),
               onTap: (){
@@ -36,21 +39,9 @@ bool b = true;
                   b=!b;
                 });
               },) : null,
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                  width: 3,
-                  color: Colors.red
 
-              ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(
-                width: 3,
-                color: Colors.red,
-              ),
-              borderRadius: BorderRadius.circular(20),
-            )
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+
 
         ),
       ),

@@ -1,19 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:midpro/customizeWidget/txtform.dart';
-
-import 'FindDonors.dart';
-import 'customizeWidget/DonorsBox.dart';
+import 'import.dart';
 
 class Enterinfofordonor extends StatefulWidget {
   String? bloodType;
   int? location;
+
   @override
   State<Enterinfofordonor> createState() => _EnterinfofordonorState();
 }
 
 class _EnterinfofordonorState extends State<Enterinfofordonor> {
-  int c=0;
-  final savkey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  int indx = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,136 +19,130 @@ class _EnterinfofordonorState extends State<Enterinfofordonor> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset("assets/blooddonat1.png",fit: BoxFit.cover),
-          Container(
-            color: Colors.white60.withOpacity(0.3),
-          ),
-          // Container(
-          //   color: Colors.white60.withOpacity(0.5),
-          // ),
+          Image.asset("assets/background/EnterDonor.png", fit: BoxFit.fill),
           SingleChildScrollView(
-            child: SafeArea(
-              child: Column(
-                crossAxisAlignment:CrossAxisAlignment.start,
-                children: [
-                  ElevatedButton(onPressed: (){
-                        Navigator.of(context).pop();
-                        }, child: Icon(Icons.arrow_back_outlined)),
-                  SizedBox(height: 130,),
-                  Form(
-                    key: savkey,
-                      child: Column(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Txtformfild(lbl: "Name", hint: "------", preIcon: Icon(Icons.person),v:(n){
-                        if(n!.isEmpty){
-                          return "envaled name";
-                        }
-                        return null;
-                      }),
-
-
-                  SizedBox(height: 30,),
-                  Txtformfild(lbl: "Phone", hint: "07********", preIcon: Icon(Icons.phone),v:(p){
-                    if(p!.isEmpty || p.length <10){
-                      return "envaled phone number";
-                    }
-                    return null;
-                  }),
-                  ]
-                  )
-                  ),
-                  SizedBox(height: 30,),
-
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DropdownButtonFormField(
-                      hint: Text("select your blood type"),
-                      icon: Icon(Icons.bloodtype,),
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.red, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.red, width: 2),
-                        ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Icon(Icons.arrow_back_outlined),
                       ),
-
-                      value: widget.bloodType,
-
-                      items: bloodTyps.map((i) {
-                        return DropdownMenuItem(
-                          child: Text(i),
-                          value: i,
+              SizedBox(height: 160,),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text("   Enter Your Information :",textAlign: TextAlign.left,style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),)),
+                      ),
+                      Txtformfild(lbl: "Full Name", hint: "Enter your name", preIcon: Icon(Icons.person),
+                        v: (value) {
+                          if (value!.isEmpty) {
+                            return "Please enter a valid name";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Txtformfild(lbl: "Phone Number", hint: "07********", preIcon: Icon(Icons.phone),
+                        v: (value) {
+                          if (value!.isEmpty || value.length != 10 ||!RegExp(r'^\d+$').hasMatch(value)) {
+                            return "Enter a valid phone number";
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Dropdown(hint: "Select Your Blood Type", icon: Icons.bloodtype, selectedValue: widget.bloodType, items: bloodTyps,
+                        onChanged: (value) {
+                          setState(() => widget.bloodType = value);
+                        },
+                      ),
+                      SizedBox(height: 20),
+                      Dropdown(hint: "Select Your Location", icon: Icons.location_on, selectedValue: widget.location, items: location,
+                        onChanged: (value) {
+                          setState(() => widget.location = value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 30),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Your information has been saved successfully")),
                         );
-                      }).toList(),
-                      onChanged: (v) {
-                        setState(() {
-                          widget.bloodType = v as String;
-                        });
-                      },
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                     ),
+                    child: Text("Save", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white)),
                   ),
-              
-                  SizedBox(height: 30,),
-              
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DropdownButtonFormField(
-
-                      hint: Text("select your location"),
-                      icon: Icon(Icons.location_on,),
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.red, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.red, width: 2),
-                        ),
-                      ),
-
-                      value: widget.location,
-
-                      items: location .map((i) {
-                        return DropdownMenuItem(
-                          child: Text(i),
-                          value: location.indexOf(i),
-                        );
-                      }).toList(),
-                      onChanged: (v) {
-                        setState(() {
-                         widget.location = v ;
-                        });
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 30,),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if(savkey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Your information has been saved successfully")));
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        fixedSize: Size(100, 70),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      child: Text("Save",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                    ),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-
-
         ],
+      ),
+
+      bottomNavigationBar: SalomonBottomBar(
+        currentIndex: indx,
+        items: [
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home_outlined),
+            title: Text("Home"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.search_rounded),
+            title: Text("Search"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text("Profile"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.logout),
+            title: Text("Logout"),
+            selectedColor: Colors.red,
+          ),
+        ],
+        onTap: (v) {
+          setState(() {
+            indx = v;
+            switch (v) {
+              case 0:
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Startscreen()), (rout) => false);
+                break;
+              case 1:
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Finddonors()));
+                break;
+              case 2:
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                break;
+              case 3:
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (rout) => false);
+                break;
+            }
+          });
+        },
       ),
     );
   }

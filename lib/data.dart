@@ -1,5 +1,5 @@
 
-List <String> area = ["","Bani Kinanah","Alramtha","irbid city","Alwasatea","Alshonah","Bani 3baid","Almazar","Altaibah","Alkorah"];
+List <String> location = ["","Bani Kinanah","Alramtha","irbid city","Alwasatea","Alshonah","Bani 3baid","Almazar","Altaibah","Alkorah"];
 //غراف يمثل الوية اربد ال 9 وكل لواء مع مين متصل
 Map<int, List<int>> graph = {
   1: [3,4,2],      //بني كنانه
@@ -14,6 +14,9 @@ Map<int, List<int>> graph = {
 };
 
 
+List<String> bloodTyps =["A+","A-","B+","B-","O-","O+","AB+","AB-"];
+
+
 
 //أحدث حملات التبرع
 String compaigns = """1-Blood Donation Campaign at Yarmouk University, Call: 0778456855
@@ -21,7 +24,6 @@ String compaigns = """1-Blood Donation Campaign at Yarmouk University, Call: 077
 3-Blood donation campaign in Irbid Blood Bank, Call: 0774521100
 
 """;
-
 
 
 //المستفيات التي يمكن الحجز فيها

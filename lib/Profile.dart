@@ -1,86 +1,115 @@
-import 'package:flutter/material.dart';
-import 'FindDonors.dart';
-import 'LoginScreen.dart';
-import 'StartScreen.dart';
-class Profile extends StatefulWidget {
+import 'import.dart';
+
+class ProfileScreen extends StatefulWidget {
   @override
-  State<Profile> createState() => _ProfileState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileState extends State<Profile> {
-  String? d;
-  int? indx = 0;
-
+class _ProfileScreenState extends State<ProfileScreen> {
+  int indx = 2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset("assets/backprofile.png",fit:BoxFit.cover,),
-          Column(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: 100,),
+              const SizedBox(height: 40),
               CircleAvatar(
-                radius: 70,
-                child: Icon(Icons.person,size: 70,),
+                radius: 40,
+                backgroundColor: Colors.grey[300],
+                child: Icon(Icons.person,size: 30,)
               ),
-              SizedBox(height: 10,),
-              Text("Abdullah Obeidat",style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white),),
+              const SizedBox(height: 10),
+              Text(
+                "Abdullah Obeidat",
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.bloodtype, color: Colors.red, size: 25),
+                  const SizedBox(width: 5),
+                  Text(
+                    "A+",
+                    style: TextStyle(fontSize: 20, color: Colors.black54),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 5),
+
+              const SizedBox(height: 20),
+              buildInfoTile(Icons.email, "Email", "Abdullah@gmail.com"),
+              buildInfoTile(Icons.location_on, "Address", "Irbid - Bani Kenanah"),
+              buildInfoTile(Icons.calendar_today, "DOB", "26th Fib, 2005"),
+              buildInfoTile(Icons.bloodtype, "Last donated", "2nd February, 2022"),
+              buildInfoTile(Icons.water_drop, "Total units donated", "0 Units"),
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 350),
-                Text("-ID : ${Loginscreen.id}",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white)),
-                SizedBox(height: 20,),
-                Text("-Blood Type : A+",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
-                SizedBox(height: 20,),
-                Text("-Age : 19",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
-                SizedBox(height: 20,),
-                Text("-Location : Bani Kenanah",style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold,color: Colors.white),),
-
-
-              ],
-            ),
-          )
-        ],
+        ),
       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-
-        currentIndex: indx!,
+      bottomNavigationBar: SalomonBottomBar(
+        currentIndex: indx,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined,color: Colors.grey,),label: "Home",),
-          BottomNavigationBarItem(icon: Icon(Icons.search_rounded,color: Colors.grey,),label: "Search",),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline,color: Colors.grey,),label: "Profile",),
-          BottomNavigationBarItem(icon: Icon(Icons.logout,color: Colors.grey,),label: "Logout"),
-
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home_outlined),
+            title: Text("Home"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.search_rounded),
+            title: Text("Search"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text("Profile"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.logout),
+            title: Text("Logout"),
+            selectedColor: Colors.red,
+          ),
         ],
-        onTap: (v){
+        onTap: (v) {
           setState(() {
             indx = v;
-            switch(v){
+            switch (v) {
               case 0:
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Startscreen()),(rout)=>false);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Startscreen()), (rout) => false);
+                break;
               case 1:
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Finddonors()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Finddonors()));
+                break;
               case 2:
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Profile()));
-
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                break;
               case 3:
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Loginscreen()),(rout)=>false);
-
-
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (rout) => false);
+                break;
             }
           });
         },
-
       ),
+    );
+  }
 
+  Widget buildInfoTile(IconData icon, String title, String value) {
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 2,
+      child: ListTile(
+        leading: Icon(icon, color: Colors.red),
+        title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: Text(value, style: TextStyle(color: Colors.black54)),
+      ),
     );
   }
 }

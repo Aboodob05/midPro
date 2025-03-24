@@ -1,10 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:midpro/customizeWidget/CampaignsBox.dart';
-import'FindDonors.dart';
-import 'LoginScreen.dart';
-import 'Profile.dart';
-import 'StartScreen.dart';
-import 'customizeWidget/DonorsBox.dart';
+import 'import.dart';
 
 class Campaignscreen extends StatefulWidget {
 
@@ -13,6 +7,7 @@ class Campaignscreen extends StatefulWidget {
 }
 
 class _DonorsState extends State<Campaignscreen> {
+  int indx =0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +24,7 @@ class _DonorsState extends State<Campaignscreen> {
           child: Stack(
               fit: StackFit.expand,
               children: [
-                Image.asset("assets/origbackgruond.png",fit: BoxFit.cover),
+                Image.asset("assets/background/origbackgruond.png",fit: BoxFit.cover),
                 ListView.builder(
                     itemCount: 3,
                     itemBuilder: (context,i){
@@ -40,34 +35,49 @@ class _DonorsState extends State<Campaignscreen> {
       ),
 
 
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: SalomonBottomBar(
         currentIndex: indx,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined,color: Colors.grey,),label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search_rounded,color: Colors.grey,),label: "Search",),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline,color: Colors.grey,),label: "Profile",),
-          BottomNavigationBarItem(icon: Icon(Icons.logout,color: Colors.grey,),label: "Logout"),
-
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home_outlined),
+            title: Text("Home"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.search_rounded),
+            title: Text("Search"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text("Profile"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.logout),
+            title: Text("Logout"),
+            selectedColor: Colors.red,
+          ),
         ],
-        onTap: (v){
+        onTap: (v) {
           setState(() {
             indx = v;
-            switch(v){
+            switch (v) {
               case 0:
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Startscreen()),(rout)=>false);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Startscreen()), (rout) => false);
+                break;
               case 1:
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Finddonors()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Finddonors()));
+                break;
               case 2:
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Profile()));
-
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                break;
               case 3:
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Loginscreen()),(rout)=>false);
-
-
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (rout) => false);
+                break;
             }
           });
         },
-
       ),
     );
 

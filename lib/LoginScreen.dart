@@ -1,83 +1,60 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_login/flutter_login.dart';
 import 'StartScreen.dart';
-import 'customizeWidget/txtform.dart';
 
+class LoginScreen extends StatelessWidget {
+  static String? id;
+  static String? getdata() => id;
 
-class Loginscreen extends StatefulWidget {
-  static String? id ;
-  static  String? getdata() => id;
+  Duration get loginTime => Duration(milliseconds: 2250);
 
-
-
-
-  @override
-  State<Loginscreen> createState() => _LoginscreenState();
-}
-
-class _LoginscreenState extends State<Loginscreen> {
-  final key = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
 
-          Image.asset("assets/blooddonat1.png",fit: BoxFit.cover),
-          Container(
-            color: Colors.white60.withOpacity(0.2),
+      body: FlutterLogin(
+        title: 'SHARYAN',
+        onLogin: (LoginData data) async {
+          if (data.name != null ) {
+            id = data.name;
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => Startscreen())
+            );
+            return null;
+          }
+          else {
+            return "Invalid ID";
+          }
+        },
+        onSignup: (SignupData data) async {
+          return null;
+        },
+        onRecoverPassword: (String name) async {
+          return null;
+        },
+
+        loginProviders: [
+          LoginProvider(
+            icon: Icons.assignment_ind,
+            label: 'Enter as a guest',
+            callback: () {},
           ),
-
-          Form(
-            key: key,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: 70,),
-                  CircleAvatar(
-                    backgroundColor: Colors.redAccent,
-                    radius: 80,
-                    child: Icon(Icons.person,size: 120,color: Colors.white,),
-                  ),
-                  SizedBox(height: 30,),
-                  Txtformfild(lbl: "ID", hint: "10 digit serial number", preIcon: Icon(Icons.person),data: (d){
-                    setState(() {
-                      Loginscreen.id = d;
-                    });
-                  },v: (v){
-                    if(v!.isEmpty || v.length <10){
-                      return "invalid id";
-                    }
-                    return null;
-                  },),
-                  SizedBox(height: 30,),
-                  Txtformfild(lbl: "Password", hint: "********",suffIcon: Icon(Icons.remove_red_eye_outlined), preIcon: Icon(Icons.password),v: (v){
-                    if(v!.isEmpty || v.length<8){
-                      return "invalid password";
-                    }
-                    return null;
-                  },),
-                  SizedBox(height: 30,),
-                  ElevatedButton(
-                    onPressed: () {
-                      if(key.currentState!.validate()) {
-                        key.currentState!.save();
-                        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Startscreen()));
-                        print(Loginscreen.id);
-                      }
-
-                    },
-
-                    child: Text("Login",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
-
-                  )
-
-                ],
-              ),
-            ),
-          )
-
         ],
+        theme: LoginTheme(
+          primaryColor: Colors.redAccent,
+          accentColor: Colors.red.shade900,
+          inputTheme: InputDecorationTheme(
+            filled: true,
+            fillColor: Colors.red.shade100,
+            labelStyle: TextStyle(color: Colors.red.shade900),
+            hintStyle: TextStyle(color: Colors.red.shade800),
+          ),
+        ),
+        onSubmitAnimationCompleted: () {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => Startscreen())
+          );
+        },
       ),
     );
   }

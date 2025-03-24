@@ -1,28 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:midpro/FindDonors.dart';
+import 'package:midpro/calling.dart';
 import 'package:midpro/data.dart';
-import'FindDonors.dart';
-class Donorsbox extends StatelessWidget {
-  int? indx;
 
+class Donorsbox extends StatelessWidget {
+  final int indx;
 
   Donorsbox({required this.indx});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 2),
-            child:Container(
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        color: Colors.white,
 
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.8),
+        child: ListTile(
 
+          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          leading: CircleAvatar(
+            backgroundColor: Color(0xFFFF5252),
+            child: Icon(Icons.person, color: Colors.white),
+          ),
+
+          title: Text(
+            donors![indx][0],
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 5),
+              Row(
+                children: [
+                  Icon(Icons.bloodtype, color: Colors.red, size: 18),
+                  SizedBox(width: 5),
+                  Text(donors![indx][1], style: TextStyle(fontSize: 16)),
+                ],
               ),
-              width: double.infinity,
-              height: 50,
-              child: Text("${indx!+1}- ${donors![indx!][0]} , ${donors![indx!][1]} , ${donors![indx!][2]} , ${donors![indx!][3]}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18)),
 
-            ) ,
+
+              Row(
+                children: [
+
+                  Icon(Icons.phone, color: Colors.green, size: 18),
+
+                  SizedBox(width: 5),
+
+                  InkWell(
+                      child:Text(donors![indx][2], style: TextStyle(fontSize: 16)),
+                    onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CallScreen(name: donors![indx][0],)));},),
+                ],
+              ),
+              Row(
+                children: [
+                  Icon(Icons.location_on, color: Colors.red, size: 18),
+                  SizedBox(width: 5),
+                  Text(donors![indx][3], style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                ],
+              ),
+            ],
+          ),
+
+        ),
+      ),
     );
   }
 }

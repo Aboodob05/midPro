@@ -1,187 +1,201 @@
-import 'package:flutter/material.dart';
-import 'package:midpro/StartScreen.dart';
-import 'Donors.dart';
-import'Donors.dart';
-import 'Bfs.dart';
-import 'LoginScreen.dart';
-import 'Profile.dart';
-List<String> bloodTyps =["A+","A-","B+","B-","O-","O+","AB+","AB-"];
-List<String> location =  ["","Bani Kinanah","Alramtha","irbid city","Alwasatea","Alshonah","Bani 3baid","Almazar","Altaibah","Alkorah"];
+import'import.dart';
 
-String? blood ;
+
+String? blood;
 int? locat;
-List? donors =[];
-int indx =0;
+List? donors = [];
 
 class Finddonors extends StatefulWidget {
-
   @override
   State<Finddonors> createState() => _FinddonorsState();
 }
 
 class _FinddonorsState extends State<Finddonors> {
+  int indx = 1;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.asset("assets/blooddonat1.png",fit: BoxFit.cover),
-              Container(
-                color: Colors.white60.withOpacity(0.3),
-              ),
-              // Container(
-              //   color: Colors.white60.withOpacity(0.0),
-              // ),
-              SafeArea(
-                child: SingleChildScrollView(
-                  child: Column(
-                  crossAxisAlignment:CrossAxisAlignment.start,
-                  children: [
-                    ElevatedButton(onPressed: (){
+        fit: StackFit.expand,
+        children: [
+          Image.asset("assets/background/FindDonors2.png", fit: BoxFit.fill),
+          // Positioned(
+          //   top: 50,
+          //   left: MediaQuery.of(context).size.width/2-50,
+          //  // child: Lottie.network("https://assets2.lottiefiles.com/packages/lf20_fbrmwpnk.json"),
+          // ),
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextButton(
+                    onPressed: () {
                       Navigator.of(context).pop();
-                    }, child: Icon(Icons.arrow_back_outlined)),
-                    Center(
-                      child: Column(
-                        children: [
-                          Icon(Icons.bloodtype,size: 150,color: Colors.redAccent,),
-                         /// Icon(Icons.bloodtype,size: 100,color: Colors.red,),
-                          SizedBox(height: 100,),
-
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButtonFormField(
-
-
-                              hint: Text("select your blood type"),
-                              icon: Icon(Icons.bloodtype,),
-                              decoration: InputDecoration(
-
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Colors.red, width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Colors.red, width: 2),
-                                ),
+                      },
+                    child: Icon(Icons.arrow_back_outlined),
+                  ),
+                  Center(
+                    child: Column(
+                      children: [
+                        SizedBox(height: 145),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text("   Select Your Blood Type :",textAlign: TextAlign.left,style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold),)),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  bloodGroupButton("A+"),
+                                  bloodGroupButton("O+"),
+                                  bloodGroupButton("B+"),
+                                  bloodGroupButton("AB+"),
+                                ],
+                              ),
+                              SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  bloodGroupButton("A-"),
+                                  bloodGroupButton("O-"),
+                                  bloodGroupButton("B-"),
+                                  bloodGroupButton("AB-"),
+                                ],
                               ),
 
-                              value: blood,
-
-                              items: bloodTyps.map((i) {
-                                return DropdownMenuItem(
-                                  child: Text(i),
-                                  value: i,
-                                );
-                              }).toList(),
-                              onChanged: (v) {
-                                setState(() {
-                                  blood = v as String;
-                                });
-                              },
-                            ),
+                            ],
                           ),
-                  
-                          SizedBox(height: 50,),
-                  
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: DropdownButtonFormField(
 
-                              hint: Text("select your location"),
-                              icon: Icon(Icons.location_on,),
-                              decoration: InputDecoration(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Colors.red, width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: Colors.red, width: 2),
-                                ),
-                              ),
+                        ),
+                        SizedBox(height: 20),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
 
-                              value: locat,
-
-                              items: location .map((i) {
-                                return DropdownMenuItem(
-                                  child: Text(i),
-                                  value: location.indexOf(i),
-                                );
-                              }).toList(),
-                              onChanged: (v) {
-                                setState(() {
-                                  locat = v;
-                                });
-                              },
-                            ),
-                          ),
-                          SizedBox(height: 50,),
-                  
-                          ElevatedButton(
-                            onPressed: () {
-                              bfs(locat);
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Donors()));
-                  
+                          child:Dropdown(
+                            hint: "Select Your Location",
+                            icon: Icons.location_on,
+                            selectedValue: locat,
+                            items: location,
+                            onChanged: (value) {
+                              setState(() => locat = value);
                             },
-                            style: ElevatedButton.styleFrom(
-                              fixedSize: Size(100, 70),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                            child: Icon(Icons.person_search_rounded,size: 40,),
-                          )
-                  
-                  
-                  
-                  
-                        ],
-                      ),
-                    ),
-                  ],
-                              ),
-                ),
-              ),
-          ]
-          ),
+                          ),
+                        ),
 
-      bottomNavigationBar: BottomNavigationBar(
+                        SizedBox(height: 50),
+                        ElevatedButton(
+                          onPressed: () {
+                            bfs(locat);
+                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (
+                                context) => Splashscreen()));
+                          },
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                            fixedSize: Size(170, 70),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.person_search_rounded,
+                                size: 25,
+                              ),
+                              SizedBox(width: 10,),
+                              Text("Find Donors",style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold),)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: SalomonBottomBar(
         currentIndex: indx,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined,color: Colors.grey,),label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.search_rounded,color: Colors.grey,),label: "Search",),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline,color: Colors.grey,),label: "Profile",),
-          BottomNavigationBarItem(icon: Icon(Icons.logout,color: Colors.grey,),label: "Logout"),
-
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home_outlined),
+            title: Text("Home"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.search_rounded),
+            title: Text("Search"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text("Profile"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.logout),
+            title: Text("Logout"),
+            selectedColor: Colors.red,
+          ),
         ],
-        onTap: (v){
+        onTap: (v) {
           setState(() {
             indx = v;
-            switch(v){
+            switch (v) {
               case 0:
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Startscreen()),(rout)=>false);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Startscreen()), (rout) => false);
+                break;
               case 1:
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Finddonors()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Finddonors()));
+                break;
               case 2:
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Profile()));
-
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                break;
               case 3:
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Loginscreen()),(rout)=>false);
-
-
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (rout) => false);
+                break;
             }
           });
         },
+      )
+      ,
+    );
+  }
 
+  Widget bloodGroupButton(String type) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          blood = type;
+        });
+      },
+      child: Container(
+        width: 80,
+        height: 45,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: blood == type ? Colors.red : Colors.white,
+          border: Border.all(color: Colors.black,width: 2),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Text(
+          type,
+          style: TextStyle(
+              color: blood == type ? Colors.white : Colors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.bold
+          ),
+        ),
       ),
-
-
-
-
-
     );
   }
 }

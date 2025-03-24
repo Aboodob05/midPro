@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
+import 'import.dart';
 
-import 'customizeWidget/txtform.dart';
 
 class Appointment extends StatefulWidget {
 
@@ -9,21 +8,27 @@ class Appointment extends StatefulWidget {
 }
 
 class _AppointmentState extends State<Appointment> {
+  DateTime date = DateTime.now();
   String? bloodType ;
   String? hosp;
+  int indx = 0;
+
   List hospitals = ["Princess Basma Educational Hospital",
     "Princess Rahma Educational Hospital",
     "Al-Yarmouk Governmental Hospital",
     "Irbid Islamic Hospital",
     "Ibn Al-Nafis Hospital",
     "King Abdullah University Hospital",];
+
+  final key = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
       body: Stack(
         fit: StackFit.expand,
         children: [
-        Image.asset("assets/origbackgruond.png",fit: BoxFit.cover),
+        Image.asset("assets/background/appointment.png",fit: BoxFit.cover),
     // Container(
     //   color: Colors.white60.withOpacity(0.5),
     // ),
@@ -32,54 +37,95 @@ class _AppointmentState extends State<Appointment> {
     child: Column(
     crossAxisAlignment:CrossAxisAlignment.start,
     children: [
-    ElevatedButton(onPressed: (){
+    TextButton(onPressed: (){
     Navigator.of(context).pop();
     }, child: Icon(Icons.arrow_back_outlined)),
-    SizedBox(height: 130,),
-      Txtformfild(lbl: "ID", hint: "10 digit serial number", preIcon: Icon(Icons.person)),
+    SizedBox(height: 30,),
+
+    SizedBox(height: 150,),
+      Form(
+        key: key,
+        child: Txtformfild(lbl: "ID", hint: "10 digit serial number", preIcon: Icon(Icons.person),v:(v) {
+          if (v!.isEmpty || v.length != 10 || !RegExp(r'^\d+$').hasMatch(v)) {
+            return "Invalid ID";
+          }
+        }
+            ),
+      ),
       SizedBox(height: 30,),
 
 
       Padding(
         padding: const EdgeInsets.all(8.0),
-        child: DropdownButtonFormField(
-          hint: Text("select a Hospital"),
-          icon: Icon(Icons.local_hospital,),
-          decoration: InputDecoration(
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(color: Colors.red, width: 2),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(20),
-              borderSide: BorderSide(color: Colors.red, width: 2),
-            ),
-          ),
-
-          value:hosp,
-
-          items: hospitals.map((i) {
-            return DropdownMenuItem(
-              child: Text(i),
-              value: i,
-            );
-          }).toList(),
-          onChanged: (v) {
-            setState(() {
-              hosp = v as String;
-            });
+        child:Dropdown(hint: "Select a Hospital", icon: Icons.local_hospital, selectedValue: hosp, items: hospitals,
+          onChanged: (value) {
+            setState(() => hosp = value);
           },
         ),
       ),
       SizedBox(height: 30,),
       Center(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 55,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Colors.grey
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Icon(Icons.date_range,color: Color(0xFFFF5252),),
+                      SizedBox(width: 20,),
+                      Text("${date.day} / ${date.month} / ${date.year}", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+
+
+          ],
+        ),
+      ),
+      Center(
+        child: ElevatedButton(
+            onPressed: () async {
+              DateTime? newDate = await showDatePicker(
+                context: context,
+                initialDate: date,
+                firstDate: DateTime.now(),
+                lastDate: DateTime(2026),
+              );
+              if (newDate != null) {
+                setState(() {
+                  date = newDate;
+                });
+              }
+            },
+          child: Text("Select Date"),
+        )
+
+      ),
+      SizedBox(height: 30,),
+      Center(
         child: ElevatedButton(
           onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Your Appointment has been saved successfully")));
-
+            if(key.currentState!.validate()) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(
+                  "Your Appointment has been saved successfully")));
+            }
           },
           style: ElevatedButton.styleFrom(
-            fixedSize: Size(100, 70),
+            fixedSize: Size(150, 60),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -96,6 +142,52 @@ class _AppointmentState extends State<Appointment> {
         ),
       ]
      ),
+
+
+      bottomNavigationBar: SalomonBottomBar(
+        currentIndex: indx,
+        items: [
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home_outlined),
+            title: Text("Home"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.search_rounded),
+            title: Text("Search"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text("Profile"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.logout),
+            title: Text("Logout"),
+            selectedColor: Colors.red,
+          ),
+        ],
+        onTap: (v) {
+          setState(() {
+            indx = v;
+            switch (v) {
+              case 0:
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Startscreen()), (rout) => false);
+                break;
+              case 1:
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Finddonors()));
+                break;
+              case 2:
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                break;
+              case 3:
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (rout) => false);
+                break;
+            }
+          });
+        },
+      ),
     );
   }
 }

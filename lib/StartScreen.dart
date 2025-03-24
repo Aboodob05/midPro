@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:midpro/Appointment.dart';
-import 'package:midpro/LoginScreen.dart';
-import 'CampaignScreen.dart';
-import 'EnterInfoForDonor.dart';
-import 'FindDonors.dart';
-import 'Profile.dart';
-
+import 'import.dart';
 
 class Startscreen extends StatefulWidget {
   @override
@@ -22,7 +15,7 @@ class _StartscreenState extends State<Startscreen> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Image.asset("assets/background2.png", fit: BoxFit.cover),
+            child: Image.asset("assets/background/StartScreen.png", fit: BoxFit.cover),
           ),
           Column(
             children: [
@@ -33,25 +26,36 @@ class _StartscreenState extends State<Startscreen> {
                   child: GridView.count(
                     crossAxisCount: 2,
                     crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
+                    mainAxisSpacing: 15,
                     children: [
-                      InkWell(child: buildGridItem(Icons.person_search, "Find Donors"),
-                      onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Finddonors()));}),
-
-                      InkWell(child: buildGridItem(Icons.person_add_alt_1, "Enter as a donor"),
-                        onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Enterinfofordonor()));
+                      InkWell(
+                        child: buildGridItem(Icons.person_search, "Find Donors"),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Finddonors()));
                         },
                       ),
-                      InkWell(child: buildGridItem(Icons.local_hospital, "Appointment"),onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Appointment()));
-                      },),
-                      InkWell(child: buildGridItem(Icons.newspaper, "Latest donation campaigns"),onTap: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Campaignscreen()));
-                      },),
-
-                      buildGridItem(Icons.help, "Ask a doctor"),
-                      buildGridItem(Icons.emergency, "Emergency donation"),
+                      InkWell(
+                        child: buildGridItem(Icons.person_add_alt_1, "Enter as a donor"),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Enterinfofordonor()));
+                        },
+                      ),
+                      InkWell(
+                        child: buildGridItem(Icons.local_hospital, "Appointment"),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Appointment()));
+                        },
+                      ),
+                      InkWell(
+                        child: buildGridItem(Icons.newspaper, "Latest donation campaigns"),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Campaignscreen()));
+                        },
+                      ),
+                      InkWell(child: buildGridItem(Icons.help, "Ask a doctor"),
+                      onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AskDoctorScreen()));},),
+                      InkWell(child: buildGridItem(Icons.add, "Add Campaign"),
+                      onTap: (){Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddCampaigns()));},),
                     ],
                   ),
                 ),
@@ -61,34 +65,49 @@ class _StartscreenState extends State<Startscreen> {
         ],
       ),
 
-      bottomNavigationBar: BottomNavigationBar(
-
+      bottomNavigationBar: SalomonBottomBar(
         currentIndex: indx,
-          items: [
-        BottomNavigationBarItem(icon: Icon(Icons.home_outlined,color: Colors.grey,),label: "Home",),
-        BottomNavigationBarItem(icon: Icon(Icons.search_rounded,color: Colors.grey,),label: "Search",),
-        BottomNavigationBarItem(icon: Icon(Icons.person_outline,color: Colors.grey,),label: "Profile",),
-        BottomNavigationBarItem(icon: Icon(Icons.logout,color: Colors.grey,),label: "Logout"),
-
-      ],
-        onTap: (v){
+        items: [
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home_outlined),
+            title: Text("Home"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.search_rounded),
+            title: Text("Search"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text("Profile"),
+            selectedColor: Colors.red,
+          ),
+          SalomonBottomBarItem(
+            icon: Icon(Icons.logout),
+            title: Text("Logout"),
+            selectedColor: Colors.red,
+          ),
+        ],
+        onTap: (v) {
           setState(() {
             indx = v;
-            switch(v){
+            switch (v) {
               case 0:
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Startscreen()),(rout)=>false);
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Startscreen()), (rout) => false);
+                break;
               case 1:
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Finddonors()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => Finddonors()));
+                break;
               case 2:
-                Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Profile()));
-                case 3:
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>Loginscreen()),(rout)=>false);
-
-
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfileScreen()));
+                break;
+              case 3:
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginScreen()), (rout) => false);
+                break;
             }
           });
         },
-
       ),
     );
   }
@@ -96,13 +115,14 @@ class _StartscreenState extends State<Startscreen> {
   Widget buildGridItem(IconData icon, String title) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(30),
+
         color: Colors.grey[200],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 50, color: Colors.red),
+          Icon(icon, size: 50, color:Color(0xFFFF5252)),
           SizedBox(height: 10),
           Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 14)),
         ],
