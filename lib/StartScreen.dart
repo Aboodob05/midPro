@@ -71,19 +71,30 @@ class _StartscreenState extends State<Startscreen> {
   }
 
   Widget buildGridItem(IconData icon, String title) {
-    return Container(
-      decoration: BoxDecoration(
+    return Card(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),
-
-        color: Colors.grey[200],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 50, color:Color(0xFFFF5252)),
-          SizedBox(height: 10),
-          Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: 14)),
-        ],
+      elevation: 5,
+      shadowColor: Colors.black45,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.grey[200],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, size: 50, color: Color(0xFFFF5252)),
+            SizedBox(height: 10),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14),
+            ),
+          ],
+        ),
       ),
     );
   }
