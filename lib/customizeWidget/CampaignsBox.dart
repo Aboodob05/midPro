@@ -18,7 +18,7 @@ class Campaignsbox extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: Colors.grey[200],
-          borderRadius: BorderRadius.circular(12), // rounded corners for the box
+          borderRadius: BorderRadius.circular(12),
 
         ),
         width: double.infinity,
@@ -27,7 +27,7 @@ class Campaignsbox extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 220,
+              height: 300,
               width: double.infinity,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
@@ -44,7 +44,7 @@ class Campaignsbox extends StatelessWidget {
               child: Text(campaignDescriptions[indx!],
                 style: TextStyle(fontSize: 18, color: Colors.black),
                 maxLines: 3,
-                overflow: TextOverflow.ellipsis, // to avoid overflowing
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           ],

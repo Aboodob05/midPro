@@ -20,6 +20,7 @@ export 'package:midpro/Bfs.dart';
 export 'customizeWidget/CampaignsBox.dart';
 export 'package:midpro/AddCampaigns.dart';
 export 'package:midpro/test.dart';
+export 'customizeWidget/BottomBar.dart';
 
 
 // Packages
